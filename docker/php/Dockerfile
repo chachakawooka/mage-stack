@@ -9,12 +9,15 @@ RUN apt-get update && apt-get install -y --fix-missing \
     gnupg
 
 RUN apt-get update && apt-get install -y \
-    zlib1g-dev \
-    libzip-dev \
-    libcurl4-gnutls-dev \
-    libxml2-dev \
     libpng-dev \
-    libjpeg62-turbo-dev
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    libmemcached-dev \
+    sendmail-bin \
+    sendmail \
+    libicu-dev
 
 RUN docker-php-ext-install \
     bcmath \
