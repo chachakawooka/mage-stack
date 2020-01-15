@@ -16,14 +16,13 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg62-turbo-dev
 
-RUN docker-php-ext-configure \
-  	gd
-  	
 RUN docker-php-ext-install \
     bcmath \
     intl \
     pdo_mysql \
-    zip
+    zip \
+    gd \
+    soap
 
 ######################
 # SETUP COMPOSER
@@ -46,3 +45,6 @@ ARG MAGENTO_USER
 ARG MAGENTO_PASSWORD
 RUN composer config --global http-basic.repo.magento.com $MAGENTO_USER $MAGENTO_PASSWORD
 RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition .
+
+
+CMD ["php-fpm"]
