@@ -19,6 +19,8 @@ RUN apt-get update && apt-get install -y \
     sendmail \
     libicu-dev
 
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+
 RUN docker-php-ext-install \
     bcmath \
     intl \
@@ -45,10 +47,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # SETUP MAGENTO APP
 ######################
 WORKDIR /app
-ARG MAGENTO_USER
-ARG MAGENTO_PASSWORD
-RUN composer config --global http-basic.repo.magento.com $MAGENTO_USER $MAGENTO_PASSWORD
-RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition .
 
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-CMD ["php-fpm"]
+CMD ["/bin/bash", "/start.sh"]

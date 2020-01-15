@@ -1,3 +1,3 @@
 # mage-stack
 
-docker build $(./buildargs.sh .env) .
+docker build $(./buildargs.sh .build) .
