@@ -22,7 +22,8 @@ RUN docker-php-ext-install \
     pdo_mysql \
     zip \
     gd \
-    soap
+    soap \
+    xsl
 
 ######################
 # SETUP COMPOSER
