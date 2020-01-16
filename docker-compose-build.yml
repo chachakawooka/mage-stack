@@ -30,6 +30,8 @@ services:
     image: chachakawooka/mage_stack_php
     volumes: 
       - app-data:/app
+      - ./app/code:/app/code
+      - ./app/design:/app/design
     build:
       context: ./docker/php
       args:
