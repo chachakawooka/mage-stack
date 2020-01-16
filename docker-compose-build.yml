@@ -7,7 +7,31 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-    restart: always
+    restart: on-failure:5
+    networks:
+      - default
+  redis:
+    image: redis:${REDIS_VERSION}
+    restart: on-failure:5
+    env_file: .env
+    expose:
+      - 6379
+    networks:
+      - default
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
+    restart: on-failure:5
+    env_file: .env
+    environment:
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - default
   app:
     image: chachakawooka/mage_stack_php
     build:
@@ -40,7 +64,6 @@ services:
       - MAGENTO_EMAIL=${MAGENTO_EMAIL}
       - MAGENTO_USER=${MAGENTO_USER}
       - MAGENTO_PASSWORD=${MAGENTO_PASSWORD}
-
 
     expose:
       - 9000

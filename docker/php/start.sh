@@ -33,6 +33,21 @@ php bin/magento setup:config:set \
     --db-user ${MYSQL_USER} \
     --db-password=${MYSQL_PASSWORD} 
 
+php bin/magento setup:config:set \
+      --cache-backend=redis \
+      --cache-backend-redis-server=redis \
+      --cache-backend-redis-db=0
+
+php bin/magento setup:config:set \
+      --session-save=redis \
+      --session-save-redis-host=redis \
+      --session-save-redis-log-level=3 \
+      --session-save-redis-db=1
+
+php bin/magento config:set catalog/search/engine elasticsearch5
+php bin/magento config:set catalog/search/elasticsearch5_server_hostname elasticsearch
+php bin/magento cache:enable
+
 php bin/magento setup:install \
     --admin-firstname $MAGENTO_FIRST_NAME \
     --admin-lastname $MAGENTO_LAST_NAME \
