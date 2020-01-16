@@ -1,0 +1,48 @@
+version: '3'
+services:
+  db: 
+    image: mariadb:10.3.2
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    restart: always
+  app:
+    image: chachakawooka/mage_stack_php
+    build:
+      context: ./docker/php
+      args:
+        - PHP_VERSION=${PHP_VERSION}
+        - MAGENTO_VERSION=${MAGENTO_VERSION}
+        - MAGENTO_COMPOSER_USER=${MAGENTO_COMPOSER_USER}
+        - MAGENTO_COMPOSER_PASSWORD=${MAGENTO_COMPOSER_PASSWORD}
+    restart: on-failure:5
+    env_file:
+      - .env
+    depends_on: 
+      - db
+    environment:
+      - COMPOSER_AUTH=${COMPOSER_AUTH}
+      - PHP_VERSION=${PHP_VERSION}
+      - MAGENTO_VERSION=${MAGENTO_VERSION}
+      - MAGENTO_COMPOSER_USER=${MAGENTO_COMPOSER_USER}
+      - MAGENTO_COMPOSER_PASSWORD=${MAGENTO_COMPOSER_PASSWORD}
+      - COMPOSER_MODULES=${COMPOSER_MODULES}
+
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+
+      - MAGENTO_FIRST_NAME=${MAGENTO_FIRST_NAME}
+      - MAGENTO_LAST_NAME=${MAGENTO_LAST_NAME}
+      - MAGENTO_EMAIL=${MAGENTO_EMAIL}
+      - MAGENTO_USER=${MAGENTO_USER}
+      - MAGENTO_PASSWORD=${MAGENTO_PASSWORD}
+
+
+    expose:
+      - 9000
+    networks:
+      - default

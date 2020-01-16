@@ -30,6 +30,8 @@ RUN docker-php-ext-install \
     soap \
     xsl
 
+ADD etc/zz-settings.ini /usr/local/etc/php/conf.d/zz-settings.ini
+
 ######################
 # SETUP COMPOSER
 ######################
@@ -47,8 +49,23 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # SETUP MAGENTO APP
 ######################
 WORKDIR /app
+ARG MAGENTO_VERSION
+ARG MAGENTO_COMPOSER_USER
+ARG MAGENTO_COMPOSER_PASSWORD
+RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
+RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:$MAGENTO_VERSION .
 
+######################
+# CLEANUP
+######################
+RUN rm $COMPOSER_HOME/auth.json
+
+######################
+# START
+######################
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
+
+VOLUME [ "/app/app/etc" ]
 
 CMD ["/bin/bash", "/start.sh"]
