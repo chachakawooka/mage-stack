@@ -55,7 +55,7 @@ php bin/magento setup:install \
     --admin-user $MAGENTO_USER \
     --admin-password $MAGENTO_PASSWORD
 else
-magento setup:db:status
+php bin/magento setup:db:status
 export ME=$?
 echo "${blue}${bold}DB STATUS: $ME ${normal}"
 fi
@@ -70,5 +70,10 @@ for module in ${COMPOSER_MODULES}; do
   echo "${blue}${bold}INSTALLING ${cyan}${module} ${normal}"
   composer require $module
 done
+
+######################
+# PERMISSIONS
+######################
+chmod -R ugoa+rwX var vendor generated pub/static pub/media app/etc
 
 php-fpm -R

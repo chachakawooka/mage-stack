@@ -23,17 +23,13 @@ services:
     restart: on-failure:5
     env_file: .env
     environment:
-      - bootstrap.memory_lock=true
-      - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
+      - discovery.type=single-node
     networks:
       - default
   app:
     image: chachakawooka/mage_stack_php
+    volumes: 
+      - app-data:/app
     build:
       context: ./docker/php
       args:
@@ -69,3 +65,20 @@ services:
       - 9000
     networks:
       - default
+  nginx:
+    volumes: 
+      - app-data:/app
+    image: chachakawooka/mage_stack_nginx
+    build:
+      context: ./docker/nginx
+      args:
+        - NGINX_VERSION=${NGINX_VERSION}
+    ports:
+      - 80
+    depends_on: 
+      - app
+    networks:
+      - default
+
+volumes:
+  app-data:
