@@ -32,8 +32,9 @@ gulp setup
 exit
 ```
 
-###### Setup Theme and Frontools
+###### Run Gulp
 ```
+docker-compose -f docker-compose-dev.yml exec app bash
 cd vendor/snowdog/frontools
 nvm use 12
 npm install gulp -g
