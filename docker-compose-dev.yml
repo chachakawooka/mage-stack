@@ -10,18 +10,12 @@ services:
     restart: on-failure:5
     networks:
       - default
+    ports:
+      - 3306
   redis:
     image: redis:${REDIS_VERSION}
     restart: on-failure:5
-    env_file: .env
-    networks:
-      - default
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
-    restart: on-failure:5
-    env_file: .env
-    environment:
-      - discovery.type=single-node
+    env_file: .env.dev
     networks:
       - default
   app:
@@ -29,19 +23,13 @@ services:
     volumes: 
       - ./app/code:/app/app/code
       - ./app/design/frontend:/app/app/design/frontend
-    build:
-      context: ./docker/stack
-      args:
-        - PHP_VERSION=${PHP_VERSION}
-        - MAGENTO_VERSION=${MAGENTO_VERSION}
-        - MAGENTO_COMPOSER_USER=${MAGENTO_COMPOSER_USER}
-        - MAGENTO_COMPOSER_PASSWORD=${MAGENTO_COMPOSER_PASSWORD}
+      - ./app/frontools:/app/dev/tools/frontools/
     restart: on-failure:5
     env_file:
-      - .env
+      - .env.dev
     depends_on: 
       - db
     ports:
-      - 80
+      - 32733:80
     networks:
       - default

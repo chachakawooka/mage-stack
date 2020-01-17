@@ -50,6 +50,7 @@ php bin/magento setup:install \
     --admin-email $MAGENTO_EMAIL \
     --admin-user $MAGENTO_USER \
     --admin-password $MAGENTO_PASSWORD
+    -–backend-frontname $MAGE_ADMIN_URL
 
 
 php bin/magento cache:enable
@@ -70,10 +71,14 @@ for module in ${COMPOSER_MODULES}; do
   composer require $module
 done
 
+
 ######################
 # PERMISSIONS
 ######################
 chmod -R ugoa+rwX var vendor generated pub/static pub/media app/etc
+
+php bin/magento setup:upgrade 
+php bin/magento setup:di:compile 
 
 ######################
 # START SERVICES

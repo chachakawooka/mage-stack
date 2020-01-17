@@ -1,0 +1,14 @@
+{
+    "name": "magestack/theme-frontend-starter",
+    "description": "Mage Stack Holding Theme",
+    "license": "MIT",
+    "type": "magento2-theme",
+    "require": {
+      "snowdog/theme-frontend-alpaca": "*"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ]
+    }
+}

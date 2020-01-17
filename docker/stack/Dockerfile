@@ -51,6 +51,18 @@ RUN rm -rf /etc/nginx/sites-enabled/*
 ######################
 # NODE SETUP
 ######################
+ENV NVM_DIR /usr/local/nvm
+ENV NODE_VERSION 12
+RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh \
+    && nvm install $NODE_VERSION \
+    && nvm alias default $NODE_VERSION \
+    && nvm use default"
+
+# add node and npm to path so the commands are available
+ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
+ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 ######################
 # SETUP MAGENTO APP
