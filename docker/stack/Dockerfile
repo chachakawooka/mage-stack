@@ -42,6 +42,13 @@ ENV COMPOSER_ALLOW_SUPERUSER 1
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ######################
+# NGINX SETUP
+######################
+RUN apt-get install -y nginx
+COPY nginx-conf.d /etc/nginx/conf.d
+RUN rm -rf /etc/nginx/sites-enabled/*
+
+######################
 # NODE SETUP
 ######################
 
@@ -63,9 +70,11 @@ RUN rm $COMPOSER_HOME/auth.json
 ######################
 # START
 ######################
+RUN apt-get install -y supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
-
-VOLUME [ "/app/app/etc" ]
-
 CMD ["/bin/bash", "/start.sh"]
+
+HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping

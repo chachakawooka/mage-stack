@@ -28,10 +28,10 @@ if [[ $MAGENTO_STATUS =~ "Magento application is not installed."$ ]]; then
 echo "${blue}${bold}INSTALLING MAGENTO CORE${normal}"
 
 php bin/magento setup:config:set \
-    --db-host ${MYSQL_HOST} \
-    --db-name ${MYSQL_DATABASE} \
-    --db-user ${MYSQL_USER} \
-    --db-password=${MYSQL_PASSWORD} 
+    --db-host ${MAGE_DB_HOST} \
+    --db-name ${MAGE_DB_NAME} \
+    --db-user ${MAGE_DB_USER} \
+    --db-password=${MAGE_DB_PASSWORD} 
 
 php bin/magento setup:config:set \
       --cache-backend=redis \
@@ -44,16 +44,15 @@ php bin/magento setup:config:set \
       --session-save-redis-log-level=3 \
       --session-save-redis-db=1
 
-php bin/magento config:set catalog/search/engine elasticsearch5
-php bin/magento config:set catalog/search/elasticsearch5_server_hostname elasticsearch
-php bin/magento cache:enable
-
 php bin/magento setup:install \
     --admin-firstname $MAGENTO_FIRST_NAME \
     --admin-lastname $MAGENTO_LAST_NAME \
     --admin-email $MAGENTO_EMAIL \
     --admin-user $MAGENTO_USER \
     --admin-password $MAGENTO_PASSWORD
+
+
+php bin/magento cache:enable
 else
 php bin/magento setup:db:status
 export ME=$?
@@ -76,4 +75,7 @@ done
 ######################
 chmod -R ugoa+rwX var vendor generated pub/static pub/media app/etc
 
-php-fpm -R
+######################
+# START SERVICES
+######################
+/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
