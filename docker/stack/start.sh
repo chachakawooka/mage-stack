@@ -49,7 +49,7 @@ php bin/magento setup:install \
     --admin-lastname $MAGENTO_LAST_NAME \
     --admin-email $MAGENTO_EMAIL \
     --admin-user $MAGENTO_USER \
-    --admin-password $MAGENTO_PASSWORD
+    --admin-password $MAGENTO_PASSWORD \
     -–backend-frontname $MAGE_ADMIN_URL
 
 
