@@ -14,8 +14,6 @@ services:
     image: redis:${REDIS_VERSION}
     restart: on-failure:5
     env_file: .env
-    expose:
-      - 6379
     networks:
       - default
   elasticsearch:
