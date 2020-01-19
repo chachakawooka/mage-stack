@@ -9,7 +9,7 @@ This stack is designed as a starting point for Alpaca theme based on the Magento
 cp .env.example .env
 ```
 
-- open up .env.dev and set MAGENTO_COMPOSER_USER & MAGENTO_COMPOSER_PASSWORD to your own credentials
+- open up .env and set MAGENTO_COMPOSER_USER & MAGENTO_COMPOSER_PASSWORD to your own credentials
 
 ##### Start The Stack
 ```
