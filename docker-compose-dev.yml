@@ -15,7 +15,7 @@ services:
   redis:
     image: redis:${REDIS_VERSION}
     restart: on-failure:5
-    env_file: .env.dev
+    env_file: .env
     networks:
       - default
   app:
@@ -26,7 +26,7 @@ services:
       - ./app/frontools:/app/dev/tools/frontools/
     restart: on-failure:5
     env_file:
-      - .env.dev
+      - .env
     depends_on: 
       - db
     ports:
