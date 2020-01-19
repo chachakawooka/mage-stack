@@ -21,16 +21,7 @@ admin url is http://localhost:32733/admin (unless you changed it)
 
 ### GET STARTED WITH ALPACA
 
-###### Setup Theme and Frontools
-```
-docker-compose -f docker-compose-dev.yml exec app bash
-cd /app/vendor/snowdog/frontools
-nvm use 12
-npm install gulp -g
-npm install 
-gulp setup
-exit
-```
+There is already a start theme in app/design/frontend;  However if you wish to rename this, you must also =chagne the frontools/config/theme.json to register in gulp
 
 ###### Run Gulp
 ```
