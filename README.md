@@ -6,7 +6,7 @@ This stack is designed as a starting point for Alpaca theme based on the Magento
 
 ##### Create Enviroment Variables
 ```
-cp .env.example .env.dev
+cp .env.example .env
 ```
 
 - open up .env.dev and set MAGENTO_COMPOSER_USER & MAGENTO_COMPOSER_PASSWORD to your own credentials
