@@ -7,13 +7,10 @@
       "Snowdog_Components": "vendor/snowdog/module-alpaca-components/components"
     }
   },
-  "my-theme,": {
+  "starter": {
     "parent": "alpaca",
-    "src": "app/design/frontend/My/Theme",
-    "dest": "pub/static/frontend/My/Theme",
-    "locale": ["en_US","en_GB"],
-    "modules": {
-      "Snowdog_Components": "vendor/icom/module-icom-components/components"
-    }
+    "src": "app/design/frontend/Magestack/starter",
+    "dest": "pub/static/frontend/Magestack/starter",
+    "locale": ["en_US","en_GB"]
   } 
 }
