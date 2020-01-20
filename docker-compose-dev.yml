@@ -10,6 +10,9 @@ services:
     restart: on-failure:5
     networks:
       - default
+    volumes:
+      - ./backup/sql:/docker-entrypoint-initdb.d
+      - ./persistent/mysql:/var/lib/mysql
     ports:
       - 3306
   redis:
@@ -24,6 +27,7 @@ services:
       - ./app/code:/app/app/code
       - ./app/design/frontend:/app/app/design/frontend
       - ./app/frontools:/app/dev/tools/frontools/
+      - ./backup/media:/app/pub/media
     restart: on-failure:5
     env_file:
       - .env
