@@ -1,3 +1,5 @@
 *.env
 *.env.dev
 *.buildargs
+*persistent
+*backup/app
