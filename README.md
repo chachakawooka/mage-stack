@@ -53,3 +53,9 @@ services:
     volumes:
       - ./backup/sql:/docker-entrypoint-initdb.d
 ```
+
+###### Export complete app code
+
+```
+./scripts/export-app.sh
+```
