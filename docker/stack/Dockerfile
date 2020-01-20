@@ -82,7 +82,7 @@ RUN rm $COMPOSER_HOME/auth.json
 ######################
 # START
 ######################
-RUN apt-get install -y supervisor
+RUN apt-get install -y supervisor netcat
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 COPY start.sh /start.sh

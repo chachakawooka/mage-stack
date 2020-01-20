@@ -20,13 +20,17 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
+
+until nc -z -v -w30 ${MAGE_DB_HOST} 3306
+do
+  echo "${yellow}Waiting for database connection...${normal}"
+  # wait for 5 seconds before check again
+  sleep 5
+done
+
 ######################
 # INSTALL MAGENTO
 ######################
-MAGENTO_STATUS=$(bin/magento setup:db:status)
-if [[ $MAGENTO_STATUS =~ "Magento application is not installed."$ ]]; then
-echo "${blue}${bold}INSTALLING MAGENTO CORE${normal}"
-
 echo "${blue}${bold}php bin/magento setup:config:set \
     --db-host ${MAGE_DB_HOST} \
     --db-name ${MAGE_DB_NAME} \
@@ -38,7 +42,7 @@ php bin/magento setup:config:set \
     --db-name ${MAGE_DB_NAME} \
     --db-user ${MAGE_DB_USER} \
     --db-password=${MAGE_DB_PASSWORD} 
-
+  
 php bin/magento setup:config:set \
       --cache-backend=redis \
       --cache-backend-redis-server=redis \
@@ -49,6 +53,10 @@ php bin/magento setup:config:set \
       --session-save-redis-host=redis \
       --session-save-redis-log-level=3 \
       --session-save-redis-db=1
+
+MAGENTO_STATUS=$(bin/magento setup:db:status)
+if [[ $MAGENTO_STATUS =~ "Magento application is not installed."$ ]]; then
+echo "${blue}${bold}INSTALLING MAGENTO CORE${normal}"
 
 echo "${blue}${bold}php bin/magento setup:install \
     --admin-firstname $MAGENTO_FIRST_NAME \
