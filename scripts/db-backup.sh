@@ -1,0 +1,1 @@
+source .env && docker-compose -f docker-compose-dev.yml exec db bash -c "mysqldump -u root -p$MYSQL_ROOT_PASSWORD $MAGE_DB_NAME > /docker-entrypoint-initdb.d/database.sql"

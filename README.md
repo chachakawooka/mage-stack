@@ -21,7 +21,7 @@ admin url is http://localhost:32733/admin (unless you changed it)
 
 ### GET STARTED WITH ALPACA
 
-There is already a start theme in app/design/frontend;  However if you wish to rename this, you must also =chagne the frontools/config/theme.json to register in gulp
+There is already a start theme in app/design/frontend;  However if you wish to rename this, you must also change the frontools/config/theme.json to register in gulp
 
 ###### Run Gulp
 ```
@@ -36,3 +36,20 @@ gulp styles
 gulp watch
 ```
 
+
+### Helper Scripts
+
+###### Take a database backup
+
+```
+./scripts/db-backup.sh
+```
+
+This can be mounted to the db container on startup
+
+```
+services:
+  db: 
+    volumes:
+      - ./backup/sql:/docker-entrypoint-initdb.d
+```
