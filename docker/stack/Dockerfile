@@ -28,7 +28,8 @@ RUN docker-php-ext-install \
     zip \
     gd \
     soap \
-    xsl
+    xsl \
+    mysqli
 
 ADD etc/zz-settings.ini /usr/local/etc/php/conf.d/zz-settings.ini
 
