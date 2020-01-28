@@ -14,4 +14,4 @@ docker-compose -f docker-compose-dev.yml -f additionals/ub-tool/docker-compose.y
 ```
 
 
-You can access the tool from http://localhost:32734 and migrate using the values configured in the mariadb docker variables
+You can access the tool from http://localhost:32734/ub-tool/ and migrate using the values configured in the mariadb docker variables
