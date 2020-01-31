@@ -12,7 +12,7 @@ services:
       - default
     volumes:
       - ./backup/sql:/docker-entrypoint-initdb.d
-      - ./persistent/mysql:/var/lib/mysql
+      - db:/var/lib/mysql
     ports:
       - 3306
   redis:
@@ -23,7 +23,9 @@ services:
       - default
   app:
     image: chachakawooka/mage_stack
-    volumes: 
+    volumes:
+      - app_etc:/app/app/etc
+      - app_pub:/app/app/pub
       - ./app/code:/app/app/code
       - ./app/design/frontend:/app/app/design/frontend
       - ./app/frontools:/app/dev/tools/frontools/
@@ -37,3 +39,7 @@ services:
       - 32733:80
     networks:
       - default
+volumes:
+  app_etc: {}
+  db: {}
+  app_pub: {}

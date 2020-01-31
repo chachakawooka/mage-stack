@@ -86,6 +86,9 @@ RUN rm $COMPOSER_HOME/auth.json
 RUN apt-get install -y supervisor netcat
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+RUN usermod -s /bin/bash www-data
+RUN chown -R www-data:www-data /app 
+
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 CMD ["/bin/bash", "/start.sh"]

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Run commands as PHP user
+su www-data
+
 ######################
 # JUST SETTINGS
 ######################
