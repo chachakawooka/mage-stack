@@ -23,10 +23,9 @@ services:
       - default
   app:
     image: chachakawooka/mage_stack
-    user: www-data:www-data
     volumes:
       - app_etc:/app/app/etc
-      - app_pub:/app/app/pub
+      - app_pub:/app/pub
       - ./app/code:/app/app/code
       - ./app/design/frontend:/app/app/design/frontend
       - ./app/frontools:/app/dev/tools/frontools/

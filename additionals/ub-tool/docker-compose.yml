@@ -9,6 +9,7 @@ services:
       - "32734:80"
     volumes:
       - ./additionals/ub-tool/nginx.conf:/etc/nginx/conf.d/default.conf
+      - app_pub:/app/pub
     depends_on: 
       - app
       - m1db
@@ -23,7 +24,6 @@ services:
     volumes:
       - ./additionals/ub-tool/sql:/docker-entrypoint-initdb.d
       - m1db:/var/lib/mysql
-      - app_pub:/app/app/pub
     networks:
       - default
 volumes:
