@@ -4,7 +4,7 @@ echo
 
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-    #rm -rf production
+    rm -rf production
     git clone $(git config remote.origin.url) production
     cd production
     git checkout production
@@ -19,5 +19,5 @@ then
     git commit -m 'Update production'
     git push --set-upstream origin production
     cd ..
-    #rm -rf production
+    rm -rf production
 fi
