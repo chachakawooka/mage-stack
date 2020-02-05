@@ -14,7 +14,7 @@ then
     rsync -av backup/app/ production/
     cd production
     rm .gitignore
-    echo "pub/media\nvar\ngenerated\" >> .gitignore
+    echo "pub/media\nvar\ngenerated" >> .gitignore
     git add .
     git commit -m 'Update production'
     git push --set-upstream origin production
