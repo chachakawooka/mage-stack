@@ -85,7 +85,7 @@ fi
 ######################
 # INSTALL ADDITIONAL COMPOSER MODULES
 ######################
-composer config --global http-basic.repo.magento.com ${MAGENTO_COMPOSER_USER} ${MAGENTO_COMPOSER_PASSWORD}
+runuser -u www-data -- composer config --global http-basic.repo.magento.com ${MAGENTO_COMPOSER_USER} ${MAGENTO_COMPOSER_PASSWORD}
 
 export IFS=";"
 for module in ${COMPOSER_MODULES}; do
