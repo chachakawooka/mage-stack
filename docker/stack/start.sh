@@ -31,24 +31,24 @@ done
 ######################
 # INSTALL MAGENTO
 ######################
-echo "${blue}${bold}runuser -u www-data -- php bin/magento setup:config:set \
+echo "${blue}${bold}php bin/magento setup:config:set \
     --db-host ${MAGE_DB_HOST} \
     --db-name ${MAGE_DB_NAME} \
     --db-user ${MAGE_DB_USER} \
     --db-password=${MAGE_DB_PASSWORD}${normal}"
 
-runuser -u www-data -- php bin/magento setup:config:set \
+php bin/magento setup:config:set \
     --db-host ${MAGE_DB_HOST} \
     --db-name ${MAGE_DB_NAME} \
     --db-user ${MAGE_DB_USER} \
     --db-password=${MAGE_DB_PASSWORD}
   
-runuser -u www-data -- php bin/magento setup:config:set \
+php bin/magento setup:config:set \
       --cache-backend=redis \
       --cache-backend-redis-server=redis \
       --cache-backend-redis-db=0
 
-runuser -u www-data -- php bin/magento setup:config:set \
+php bin/magento setup:config:set \
       --session-save=redis \
       --session-save-redis-host=redis \
       --session-save-redis-log-level=3 \
@@ -58,7 +58,7 @@ MAGENTO_STATUS=$(bin/magento setup:db:status)
 if [[ $MAGENTO_STATUS =~ "Magento application is not installed."$ ]]; then
 echo "${blue}${bold}INSTALLING MAGENTO CORE${normal}"
 
-echo "${blue}${bold}runuser -u www-data -- php bin/magento setup:install \
+echo "${blue}${bold}php bin/magento setup:install \
     --admin-firstname $MAGENTO_FIRST_NAME \
     --admin-lastname $MAGENTO_LAST_NAME \
     --admin-email $MAGENTO_EMAIL \
@@ -66,7 +66,7 @@ echo "${blue}${bold}runuser -u www-data -- php bin/magento setup:install \
     --admin-password $MAGENTO_PASSWORD \
     --backend-frontname $MAGE_ADMIN_URL${normal}"
 
-runuser -u www-data -- php bin/magento setup:install \
+php bin/magento setup:install \
     --admin-firstname $MAGENTO_FIRST_NAME \
     --admin-lastname $MAGENTO_LAST_NAME \
     --admin-email $MAGENTO_EMAIL \
@@ -75,9 +75,9 @@ runuser -u www-data -- php bin/magento setup:install \
     --backend-frontname $MAGE_ADMIN_URL
 
 
-runuser -u www-data -- php bin/magento cache:enable
+php bin/magento cache:enable
 else
-runuser -u www-data -- php bin/magento setup:db:status
+php bin/magento setup:db:status
 export ME=$?
 echo "${blue}${bold}DB STATUS: $ME ${normal}"
 fi
@@ -85,12 +85,12 @@ fi
 ######################
 # INSTALL ADDITIONAL COMPOSER MODULES
 ######################
-runuser -u www-data -- composer config --global http-basic.repo.magento.com ${MAGENTO_COMPOSER_USER} ${MAGENTO_COMPOSER_PASSWORD}
+composer config --global http-basic.repo.magento.com ${MAGENTO_COMPOSER_USER} ${MAGENTO_COMPOSER_PASSWORD}
 
 export IFS=";"
 for module in ${COMPOSER_MODULES}; do
   echo "${blue}${bold}INSTALLING ${cyan}${module} ${normal}"
-  runuser -u www-data -- composer require $module
+  composer require $module
 done
 
 
@@ -99,8 +99,11 @@ done
 ######################
 chmod -R ugoa+rwX var vendor generated pub/static pub/media app/etc
 
-runuser -u www-data -- php bin/magento setup:upgrade
-runuser -u www-data -- php bin/magento setup:di:compile 
+php bin/magento setup:upgrade
+php bin/magento setup:di:compile 
+
+chgrp -R www-data pub
+chmod -R g+rwX pub
 
 ######################
 # START SERVICES
