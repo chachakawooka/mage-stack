@@ -3,13 +3,14 @@ services:
   app:
     volumes:
       - ./additionals/ub-tool/Ubertheme:/app/app/code/Ubertheme
+      - app_pub_ubertool:/app/pub/ub-tool
   ubertool:
     image: nginx
     ports:
       - "32734:80"
     volumes:
       - ./additionals/ub-tool/nginx.conf:/etc/nginx/conf.d/default.conf
-      - app_pub:/app/pub
+      - app_pub_ubertool:/app/pub/ub-tool
     depends_on: 
       - app
       - m1db
@@ -28,3 +29,4 @@ services:
       - default
 volumes:
   m1db: {}
+  app_pub_ubertool: {}
