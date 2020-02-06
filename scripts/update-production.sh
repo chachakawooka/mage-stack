@@ -7,7 +7,8 @@ then
     rm -rf production
     git clone $(git config remote.origin.url) production
     cd production
-    git checkout production
+
+    git checkout production 2>/dev/null || git checkout --orphan production
 
     git rm -rf .
     cd ..
