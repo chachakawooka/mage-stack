@@ -82,6 +82,16 @@ export ME=$?
 echo "${blue}${bold}DB STATUS: $ME ${normal}"
 fi
 
+
+######################
+# INSTALL ADDITIONAL COMPOSER REPOSITORIES
+######################
+export IFS=";"
+for repo in ${COMPOSER_REPOS}; do
+  echo "${blue}${bold}ADDING REPO ${cyan}${repo} ${normal}"
+  composer config repositories.$repo composer https://$repo 
+done
+
 ######################
 # INSTALL ADDITIONAL COMPOSER MODULES
 ######################
