@@ -1,8 +1,7 @@
 ######################
 # PHP STARTING
 ######################
-ARG PHP_VERSION
-FROM php:$PHP_VERSION
+FROM php:7.2-fpm
 
 RUN apt-get update && apt-get install -y --fix-missing \
     apt-utils \
@@ -69,11 +68,11 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 # SETUP MAGENTO APP
 ######################
 WORKDIR /app
-ARG MAGENTO_VERSION
+
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
 RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
-RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:$MAGENTO_VERSION .
+RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.3.3 .
 
 ######################
 # CLEANUP
