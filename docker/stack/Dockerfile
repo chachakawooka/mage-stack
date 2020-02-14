@@ -72,7 +72,7 @@ WORKDIR /app
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
 RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
-RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.3.3 .
+RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.3.4 .
 
 ######################
 # CLEANUP
