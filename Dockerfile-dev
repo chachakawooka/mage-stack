@@ -1,0 +1,40 @@
+######################
+# PHP STARTING
+######################
+FROM chachakawooka/mage_stack:2.3.4
+
+ARG MAGENTO_COMPOSER_USER
+ARG MAGENTO_COMPOSER_PASSWORD
+RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
+
+#ADD AUTH
+RUN composer config http-basic.repo.wyomind.com {USER} {PASSWORD}
+
+#ADD REPOS
+RUN composer config repositories.repo.wyomind.com composer https://repo.wyomind.com 
+
+
+#SETUP FRONTOOLS
+RUN composer require snowdog/theme-frontend-alpaca
+WORKDIR /app/vendor/snowdog/frontools
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && \ 
+nvm use 12 && \
+npm install gulp -g && \
+npm install && \
+gulp setup"
+
+COPY /app/frontools/config/* /app/dev/tools/frontools/config/
+COPY /app/code/* /app/app/code/
+COPY /app/design/frontend/Magestack/starter/* /app/app/design/frontend/Magestack/starter/
+
+#ADD MODULES
+
+#SETUP SERVICES
+WORKDIR /app
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+CMD ["/bin/bash", "/start.sh"]
+
+HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping

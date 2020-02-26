@@ -22,13 +22,16 @@ services:
     networks:
       - default
   app:
-    image: chachakawooka/mage_stack
+    image: YOUR_PROJECT_NAME/mage_stack
+    build:
+      context: ./
+      dockerfile: Dockerfile-dev
+      args:
+        - MAGENTO_COMPOSER_USER=${MAGENTO_COMPOSER_USER}
+        - MAGENTO_COMPOSER_PASSWORD=${MAGENTO_COMPOSER_PASSWORD}
     volumes:
-      - app_etc:/app/app/etc
-      - app_pub:/app/pub
       - ./app/code:/app/app/code
       - ./app/design/frontend:/app/app/design/frontend
-      - ./app/frontools:/app/dev/tools/frontools/
       - ./backup/media:/app/pub/media
     restart: on-failure:5
     env_file:
@@ -40,6 +43,4 @@ services:
     networks:
       - default
 volumes:
-  app_etc: {}
   db: {}
-  app_pub: {}
