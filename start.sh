@@ -109,6 +109,8 @@ cd /app
 chmod -R ugoa+rwX var vendor generated pub/static pub/media app/etc
 chgrp -R www-data pub var 
 chmod -R g+rwX pub var 
+chmod 777 auth.json
+php bin/magento c:f
 
 ######################
 # START SERVICES

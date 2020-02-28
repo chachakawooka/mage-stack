@@ -28,9 +28,9 @@ COPY /app/code/* /app/app/code/
 COPY /app/design/frontend/Magestack/starter/* /app/app/design/frontend/Magestack/starter/
 
 #ADD MODULES
+WORKDIR /app
 
 #SETUP SERVICES
-WORKDIR /app
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
