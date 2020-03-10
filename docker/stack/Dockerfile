@@ -89,4 +89,4 @@ COPY start.sh /start.sh
 RUN chmod +x /start.sh
 CMD ["/bin/bash", "/start.sh"]
 
-HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping
+HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:80/
