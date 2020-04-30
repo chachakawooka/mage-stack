@@ -3,11 +3,11 @@
 ######################
 FROM php:7.2-fpm
 
-RUN apt-get update && apt-get install -y --fix-missing \
+RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
     gnupg
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
@@ -75,15 +75,17 @@ RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER 
 RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.3.5 .
 
 ######################
+# START
+######################
+RUN apt-get install -y --no-install-recommends supervisor netcat
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf4
+
+######################
 # CLEANUP
 ######################
 RUN rm $COMPOSER_HOME/auth.json
-
-######################
-# START
-######################
-RUN apt-get install -y supervisor netcat
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+RUN rm -rf $COMPOSER_HOME/cache
+RUN rm -rf /var/lib/apt/lists/*
 
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
