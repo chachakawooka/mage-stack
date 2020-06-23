@@ -23,9 +23,9 @@ npm install gulp -g && \
 npm install && \
 gulp setup"
 
-COPY /app/frontools/config/* /app/dev/tools/frontools/config/
-COPY /app/code/* /app/app/code/
-COPY /app/design/frontend/Magestack/starter/* /app/app/design/frontend/Magestack/starter/
+COPY /app/frontools/config /app/dev/tools/frontools/config
+COPY /app/code /app/app/code
+COPY /app/design/frontend/Magestack/starter /app/app/design/frontend/Magestack/starter
 
 #ADD MODULES
 WORKDIR /app
