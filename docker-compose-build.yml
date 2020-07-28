@@ -32,8 +32,6 @@ services:
     build:
       context: ./docker/stack
       args:
-        - PHP_VERSION=${PHP_VERSION}
-        - MAGENTO_VERSION=${MAGENTO_VERSION}
         - MAGENTO_COMPOSER_USER=${MAGENTO_COMPOSER_USER}
         - MAGENTO_COMPOSER_PASSWORD=${MAGENTO_COMPOSER_PASSWORD}
     restart: on-failure:5
