@@ -28,6 +28,13 @@ do
     sleep 5
 done
 
+until nc -z -v -w30 es01 9200
+do
+    echo "${yellow}Waiting for elastic connection...${normal}"
+    # wait for 5 seconds before check again
+    sleep 5
+done
+
 ######################
 # INSTALL MAGENTO
 ######################
@@ -35,13 +42,15 @@ echo "${blue}${bold}php bin/magento setup:config:set \
     --db-host ${MAGE_DB_HOST} \
     --db-name ${MAGE_DB_NAME} \
     --db-user ${MAGE_DB_USER} \
---db-password=${MAGE_DB_PASSWORD}${normal}"
+--db-password=${MAGE_DB_PASSWORD} \
+--es-hosts=es01:9200 ${normal}"
 
 php bin/magento setup:config:set \
 --db-host ${MAGE_DB_HOST} \
 --db-name ${MAGE_DB_NAME} \
 --db-user ${MAGE_DB_USER} \
---db-password=${MAGE_DB_PASSWORD}
+--db-password=${MAGE_DB_PASSWORD} \
+--es-hosts=es01:9200
 
 php bin/magento setup:config:set \
 --cache-backend=redis \
@@ -82,6 +91,8 @@ else
     echo "${blue}${bold}DB STATUS: $ME ${normal}"
 fi
 
+# we are working local, no need for 2FA
+php bin/magento module:disable Magento_TwoFactorAuth
 
 ######################
 # COMPILE

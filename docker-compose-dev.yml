@@ -42,5 +42,18 @@ services:
       - 32733:80
     networks:
       - default
+  es01:
+      image: smilesuite/es
+      environment:
+      - node.name=es01
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+      build:
+        context: ./
+        dockerfile: Dockerfile-elastic
+      ulimits:
+          memlock:
+              soft: -1
+              hard: -1
 volumes:
   db: {}

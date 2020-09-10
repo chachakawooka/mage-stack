@@ -1,21 +1,31 @@
 ######################
 # PHP STARTING
 ######################
-FROM chachakawooka/mage_stack:2.4.0
+FROM chachakawooka/mage_stack:2.4.0.0.1
 
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
 RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
 
 #ADD AUTH
-RUN composer config http-basic.repo.wyomind.com {USER} {PASSWORD}
+#RUN composer config http-basic.repo.wyomind.com {USER} {PASSWORD}
 
 #ADD REPOS
-RUN composer config repositories.repo.wyomind.com composer https://repo.wyomind.com 
+#RUN composer config repositories.repo.wyomind.com composer https://repo.wyomind.com 
 
 
 #SETUP FRONTOOLS
 RUN composer require snowdog/theme-frontend-alpaca
+RUN composer require snowdog/frontools
+RUN composer require smile/elasticsuite
+RUN composer require snowdog/module-wishlist-unlocker
+RUN composer require snowdog/module-shipping-latency
+RUN composer require snowdog/module-product-attribute-description
+RUN composer require snowdog/module-menu
+RUN composer require snowdog/module-category-attributes
+RUN composer require magepal/magento2-googletagmanager
+RUN composer require webshopapps/module-matrixrate
+
 WORKDIR /app/vendor/snowdog/frontools
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && \ 
 nvm use 12 && \
