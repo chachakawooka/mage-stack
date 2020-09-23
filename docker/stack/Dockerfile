@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libmemcached-dev \
     sendmail-bin \
     sendmail \
-    libicu-dev
+    libicu-dev \
+    libzip-dev
 
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 
@@ -28,7 +29,9 @@ RUN docker-php-ext-install \
     gd \
     soap \
     xsl \
-    mysqli
+    mysqli \
+    sockets
+
 
 ADD etc/zz-settings.ini /usr/local/etc/php/conf.d/zz-settings.ini
 
