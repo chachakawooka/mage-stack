@@ -1,7 +1,7 @@
 ######################
 # PHP STARTING
 ######################
-FROM php:7.2-fpm
+FROM php:7.3-fpm
 
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
