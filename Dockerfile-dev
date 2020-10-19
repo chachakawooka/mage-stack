@@ -14,17 +14,22 @@ RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER 
 #RUN composer config repositories.repo.wyomind.com composer https://repo.wyomind.com 
 
 
-#SETUP FRONTOOLS
+#ALPACA NEED IT
 RUN composer require snowdog/theme-frontend-alpaca
 RUN composer require snowdog/frontools
 RUN composer require smile/elasticsuite
+
+#ALPACA ALSO
 RUN composer require snowdog/module-wishlist-unlocker
-RUN composer require snowdog/module-shipping-latency
 RUN composer require snowdog/module-product-attribute-description
 RUN composer require snowdog/module-menu
-RUN composer require snowdog/module-category-attributes
 RUN composer require magepal/magento2-googletagmanager
 RUN composer require webshopapps/module-matrixrate
+
+#ALPACA NOT CURRENTLY COMPATIBLE ON 2.4
+#RUN composer require snowdog/module-category-attributes
+#RUN composer require snowdog/module-shipping-latency
+#RUN composer require snowdog/module-bullet-points
 
 WORKDIR /app/vendor/snowdog/frontools
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && \ 
