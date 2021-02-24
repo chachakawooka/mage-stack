@@ -41,7 +41,7 @@ ENV COMPOSER_HOME /composer
 ENV PATH /composer/vendor/bin:$PATH
 ENV COMPOSER_ALLOW_SUPERUSER 1
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=1.10.16
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ######################
 # NGINX SETUP
@@ -74,13 +74,13 @@ WORKDIR /app
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
 RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
-RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.1 .
+RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.2 .
 
 ######################
 # START
 ######################
 RUN apt-get install -y --no-install-recommends supervisor netcat
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf4
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ######################
 # CLEANUP
