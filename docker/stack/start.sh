@@ -42,7 +42,7 @@ php bin/magento setup:config:set \
 --db-host ${MAGE_DB_HOST} \
 --db-name ${MAGE_DB_NAME} \
 --db-user ${MAGE_DB_USER} \
---db-password=${MAGE_DB_PASSWORD} \
+--db-password=${MAGE_DB_PASSWORD}
 
 
 MAGENTO_STATUS=$(bin/magento setup:db:status)
