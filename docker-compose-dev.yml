@@ -1,7 +1,7 @@
-version: '3'
+version: "3"
 services:
-  db: 
-    image: mariadb:10.3.2
+  db:
+    image: mariadb:10.4
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MAGE_DB_NAME}
@@ -36,24 +36,24 @@ services:
     restart: on-failure:5
     env_file:
       - .env
-    depends_on: 
+    depends_on:
       - db
     ports:
       - 32733:80
     networks:
       - default
   es01:
-      image: smilesuite/es
-      environment:
+    image: smilesuite/es
+    environment:
       - node.name=es01
       - discovery.type=single-node
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
-      build:
-        context: ./
-        dockerfile: Dockerfile-elastic
-      ulimits:
-          memlock:
-              soft: -1
-              hard: -1
+    build:
+      context: ./
+      dockerfile: Dockerfile-elastic
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
 volumes:
   db: {}
