@@ -1,7 +1,7 @@
 ######################
 # PHP STARTING
 ######################
-FROM php:7.3-fpm
+FROM php:7.4-fpm
 
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libicu-dev \
     libzip-dev
 
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 
 RUN docker-php-ext-install \
     bcmath \
@@ -75,13 +75,13 @@ WORKDIR /app
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
 RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
-RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.3.7 .
+RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.3.7-p2 .
 
 ######################
 # START
 ######################
 RUN apt-get install -y --no-install-recommends supervisor netcat
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf4
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ######################
 # CLEANUP
