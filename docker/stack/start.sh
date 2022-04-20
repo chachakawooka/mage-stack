@@ -58,7 +58,6 @@ if [[ $MAGENTO_STATUS =~ "Magento application is not installed."$ ]]; then
     --elasticsearch-host=es01
     
     php bin/magento setup:config:set --page-cache=redis --page-cache-redis-server=redis --page-cache-redis-db=1
-    
     php bin/magento cache:enable
 else
     php bin/magento setup:db:status
@@ -98,6 +97,8 @@ php bin/magento setup:di:compile
 
 chgrp -R www-data pub
 chmod -R g+rwX pub
+
+php bin/magento indexer:reindex
 
 ######################
 # START SERVICES

@@ -22,7 +22,7 @@ services:
     networks:
       - default
   app:
-    image: YOUR_PROJECT_NAME/mage_stack
+    image: your_project_name/mage_stack
     build:
       context: ./
       dockerfile: Dockerfile-dev
@@ -55,5 +55,9 @@ services:
       memlock:
         soft: -1
         hard: -1
+  rabbitmq:
+    image: rabbitmq:3.8-management
+    ports:
+      - 15672
 volumes:
   db: {}

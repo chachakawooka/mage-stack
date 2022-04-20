@@ -1,7 +1,7 @@
 ######################
 # PHP STARTING
 ######################
-FROM chachakawooka/mage_stack:2.4.3.1
+FROM chachakawooka/mage_stack:2.4.3.2
 
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
@@ -15,25 +15,12 @@ RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER 
 
 
 #ALPACA NEED IT
-RUN composer require snowdog/theme-frontend-alpaca
-RUN composer require snowdog/frontools
-RUN composer require smile/elasticsuite
-
-#ALPACA ALSO
-RUN composer require snowdog/module-wishlist-unlocker
-RUN composer require snowdog/module-product-attribute-description
-RUN composer require snowdog/module-menu
-RUN composer require magepal/magento2-googletagmanager
-RUN composer require webshopapps/module-matrixrate
-
-#ALPACA NOT CURRENTLY COMPATIBLE ON 2.4
-#RUN composer require snowdog/module-category-attributes
-#RUN composer require snowdog/module-shipping-latency
-#RUN composer require snowdog/module-bullet-points
+RUN composer remove magento/composer-dependency-version-audit-plugin
+RUN composer require snowdog/module-alpaca-packages snowdog/frontools
 
 WORKDIR /app/vendor/snowdog/frontools
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && \ 
-nvm use 12 && \
+nvm use 14 && \
 npm install gulp -g && \
 npm install && \
 gulp setup"

@@ -1,10 +1,2 @@
-
-// Component variables
-@import '../Snowdog_Components/components/Atoms/variables/variables';
-@import 'variables';
-
-// Components
-@import '../Snowdog_Components/components/styles';
-
-// Theme styles
-@import 'theme';
+@import "variables";
+@import "theme";

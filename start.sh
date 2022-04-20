@@ -38,11 +38,26 @@ done
 ######################
 # INSTALL MAGENTO
 ######################
+
 php bin/magento setup:config:set \
 --db-host ${MAGE_DB_HOST} \
 --db-name ${MAGE_DB_NAME} \
 --db-user ${MAGE_DB_USER} \
---db-password=${MAGE_DB_PASSWORD}
+--db-password=${MAGE_DB_PASSWORD} \
+--es-hosts=es01:9200
+
+php bin/magento setup:config:set \
+--cache-backend=redis \
+--cache-backend-redis-server=redis \
+--cache-backend-redis-db=0
+
+php bin/magento setup:config:set \
+--session-save=redis \
+--session-save-redis-host=redis \
+--session-save-redis-log-level=3 \
+--session-save-redis-db=1
+
+php bin/magento setup:config:set --amqp-host="rabbitmq" --amqp-port="5672" --amqp-user="guest" --amqp-password="guest" --amqp-virtualhost="/"
 
 MAGENTO_STATUS=$(bin/magento setup:db:status)
 if [[ $MAGENTO_STATUS =~ "Magento application is not installed."$ ]]; then
@@ -54,11 +69,7 @@ if [[ $MAGENTO_STATUS =~ "Magento application is not installed."$ ]]; then
     --admin-email $MAGENTO_EMAIL \
     --admin-user $MAGENTO_USER \
     --admin-password $MAGENTO_PASSWORD \
-    --backend-frontname $MAGE_ADMIN_URL \
-    --elasticsearch-host=es01
-    
-    php bin/magento setup:config:set --page-cache=redis --page-cache-redis-server=redis --page-cache-redis-db=1
-    
+    --backend-frontname $MAGE_ADMIN_URL 
     
     php bin/magento cache:enable
 else
@@ -83,6 +94,7 @@ php bin/magento setup:static-content:deploy en_GB en_US -f
 echo "${blue}${bold}STARTING GULP${normal}"
 cd /app/vendor/snowdog/frontools
 source $NVM_DIR/nvm.sh
+nvm use 14
 gulp svg
 gulp babel
 gulp styles
@@ -93,10 +105,11 @@ cd /app
 ######################
 # PERMISSIONS
 ######################
-chmod -R ugoa+rwX var vendor generated pub/static pub/media app/etc
-chgrp -R www-data pub var
-chmod -R g+rwX pub var
-chmod 777 auth.json
+chgrp -R www-data pub var app/etc generated
+chmod -R g+rwX pub var app/etc vendor
+
+# clean up
+php bin/magento indexer:reindex
 php bin/magento c:f
 
 ######################

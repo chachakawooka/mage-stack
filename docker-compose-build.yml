@@ -17,7 +17,7 @@ services:
     networks:
       - default
   es01:
-    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_VERSION}
+    image: elasticsearch:7.16
     restart: on-failure:5
     env_file: .env
     environment:
