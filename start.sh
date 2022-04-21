@@ -105,8 +105,8 @@ cd /app
 ######################
 # PERMISSIONS
 ######################
-chgrp -R www-data pub var app/etc generated
-chmod -R g+rwX pub var app/etc vendor
+chgrp -R www-data pub var app/etc generated auth.json
+chmod -R g+rwX pub var app/etc vendor auth.json
 
 # clean up
 php bin/magento indexer:reindex
