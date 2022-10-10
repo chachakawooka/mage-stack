@@ -1,7 +1,7 @@
 ######################
 # PHP STARTING
 ######################
-FROM php:7.4-fpm
+FROM php:8.1-fpm
 
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
@@ -74,17 +74,11 @@ WORKDIR /app
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
 RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
-RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.3-p2 .
+RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.4 .
 
 
 #PACTHES
 COPY /patches/ /patches/
-
-# Magento Page Builder Install Bug
-WORKDIR /app/vendor/magento/module-page-builder/
-COPY /patches/page-build-install.diff /app/vendor/magento/module-page-builder/
-RUN patch -p1 < /app/vendor/magento/module-page-builder/page-build-install.diff 
-RUN rm page-build-install.diff 
 
 WORKDIR /app
 
