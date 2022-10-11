@@ -76,13 +76,6 @@ ARG MAGENTO_COMPOSER_PASSWORD
 RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
 RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.4 .
 
-
-#PACTHES
-COPY /patches/ /patches/
-
-WORKDIR /app
-
-
 ######################
 # START
 ######################
