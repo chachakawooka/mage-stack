@@ -53,9 +53,10 @@ RUN rm -rf /etc/nginx/sites-enabled/*
 ######################
 # NODE SETUP
 ######################
+RUN mkdir -p /usr/local/nvm
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION 14
-RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.2/install.sh | bash
+RUN curl --silent -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
@@ -74,7 +75,7 @@ WORKDIR /app
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
 RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
-RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.4 .
+RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.5-p1 .
 
 ######################
 # START

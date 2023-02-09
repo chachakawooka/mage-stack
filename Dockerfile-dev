@@ -1,7 +1,7 @@
 ######################
 # PHP STARTING
 ######################
-FROM chachakawooka/mage_stack:2.4.4
+FROM chachakawooka/mage_stack:2.4.5.1
 
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
@@ -15,11 +15,12 @@ RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER 
 
 
 #ALPACA NEED IT
-RUN composer remove magento/composer-dependency-version-audit-plugin
+RUN composer require magento/composer-root-update-plugin ~2.0 --no-update. 
 RUN composer require snowdog/module-alpaca-packages snowdog/frontools
 
 WORKDIR /app/vendor/snowdog/frontools
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && \ 
+nvm install 14 && \
 nvm use 14 && \
 npm install gulp -g && \
 npm install && \

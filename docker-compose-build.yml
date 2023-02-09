@@ -17,7 +17,7 @@ services:
     networks:
       - default
   es01:
-    image: elasticsearch:7.16
+    image: elasticsearch:7.17.9
     restart: on-failure:5
     env_file: .env
     environment:
