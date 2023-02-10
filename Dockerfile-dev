@@ -15,7 +15,7 @@ RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER 
 
 
 #ALPACA NEED IT
-RUN composer require magento/composer-root-update-plugin ~2.0 --no-update. 
+RUN composer require magento/composer-root-update-plugin ~2.0 --no-update
 RUN composer require snowdog/module-alpaca-packages snowdog/frontools
 
 WORKDIR /app/vendor/snowdog/frontools
