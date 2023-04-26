@@ -78,6 +78,12 @@ RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER 
 RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.5-p2 .
 
 ######################
+# APPLY PATCHES
+######################
+COPY /patches/ /patches/
+RUN for file in /patches/*.patch; do patch -p1 < $file; done
+
+######################
 # START
 ######################
 RUN apt-get install -y --no-install-recommends supervisor netcat

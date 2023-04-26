@@ -95,8 +95,8 @@ chmod -R ugoa+rwX var vendor generated pub/static pub/media app/etc
 php bin/magento setup:upgrade
 php bin/magento setup:di:compile
 
-chgrp -R www-data pub
-chmod -R g+rwX pub
+chgrp -R www-data pub var
+chmod -R g+rwX pub var
 
 php bin/magento indexer:reindex
 
