@@ -86,7 +86,7 @@ RUN for file in /patches/*.patch; do patch -p1 < $file; done
 ######################
 # START
 ######################
-RUN apt-get install -y --no-install-recommends supervisor netcat
+RUN apt-get install -y --no-install-recommends supervisor netcat-openbsd
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ######################
