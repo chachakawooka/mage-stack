@@ -80,7 +80,7 @@ RUN composer create-project --repository=https://repo.magento.com/ magento/proje
 ######################
 # START
 ######################
-RUN apt-get install -y --no-install-recommends supervisor netcat
+RUN apt-get install -y --no-install-recommends supervisor netcat-openbsd
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 ######################
