@@ -1,7 +1,7 @@
 ######################
 # PHP STARTING
 ######################
-FROM php:8.1-fpm
+FROM php:8.1.21-fpm
 
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
@@ -75,7 +75,13 @@ WORKDIR /app
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
 RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
-RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.5-p1 .
+RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.5-p3 .
+
+######################
+# APPLY PATCHES
+######################
+COPY /patches/ /patches/
+RUN for file in /patches/*.patch; do patch -p1 < $file; done
 
 ######################
 # START
