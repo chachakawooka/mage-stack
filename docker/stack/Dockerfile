@@ -52,9 +52,25 @@ COPY nginx-conf.d /etc/nginx/conf.d
 RUN rm -rf /etc/nginx/sites-enabled/*
 
 ######################
+# SETUP MAGENTO APP
+######################
+WORKDIR /app
+
+RUN chown -R www-data:www-data /app /composer
+
+RUN mkdir -p /usr/local/nvm
+RUN chown -R www-data:www-data /usr/local/nvm
+
+USER www-data
+
+ARG MAGENTO_COMPOSER_USER
+ARG MAGENTO_COMPOSER_PASSWORD
+RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
+RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.5-p5 .
+
+######################
 # NODE SETUP
 ######################
-RUN mkdir -p /usr/local/nvm
 ENV NVM_DIR /usr/local/nvm
 ENV NODE_VERSION 16
 RUN curl --silent -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
@@ -67,19 +83,6 @@ RUN /bin/bash -c "source $NVM_DIR/nvm.sh \
 # add node and npm to path so the commands are available
 ENV NODE_PATH $NVM_DIR/v$NODE_VERSION/lib/node_modules
 ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
-
-######################
-# SETUP MAGENTO APP
-######################
-WORKDIR /app
-
-RUN chown -R www-data:www-data /app /composer
-USER www-data
-
-ARG MAGENTO_COMPOSER_USER
-ARG MAGENTO_COMPOSER_PASSWORD
-RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
-RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.5-p5 .
 
 ######################
 # APPLY PATCHES
