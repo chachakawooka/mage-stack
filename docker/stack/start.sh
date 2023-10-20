@@ -20,7 +20,6 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
-
 until nc -z -v -w30 ${MAGE_DB_HOST} 3306
 do
     echo "${yellow}Waiting for database connection...${normal}"
@@ -34,6 +33,8 @@ do
     # wait for 5 seconds before check again
     sleep 5
 done
+
+su www-data
 
 ######################
 # INSTALL MAGENTO
@@ -90,17 +91,14 @@ done
 ######################
 # PERMISSIONS
 ######################
-chmod -R ugoa+rwX var vendor generated pub/static pub/media app/etc
-
 php bin/magento setup:upgrade
 php bin/magento setup:di:compile
 
-chgrp -R www-data pub var
-chmod -R g+rwX pub var
-
 php bin/magento indexer:reindex
+rm -rf var
 
 ######################
 # START SERVICES
 ######################
+su root
 /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf

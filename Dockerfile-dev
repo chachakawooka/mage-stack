@@ -2,6 +2,7 @@
 # PHP STARTING
 ######################
 FROM chachakawooka/mage_stack:2.4.5.6
+USER www-data
 
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
@@ -20,8 +21,8 @@ RUN composer require snowdog/module-alpaca-packages snowdog/frontools
 
 WORKDIR /app/vendor/snowdog/frontools
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && \ 
-nvm install 14 && \
-nvm use 14 && \
+    nvm install 16 && \
+    nvm use 16 && \
 npm install gulp -g && \
 npm install && \
 gulp setup"

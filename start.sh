@@ -39,6 +39,10 @@ done
 # INSTALL MAGENTO
 ######################
 
+# change user to www-data
+su www-data
+
+
 php bin/magento setup:config:set \
 --db-host ${MAGE_DB_HOST} \
 --db-name ${MAGE_DB_NAME} \
@@ -94,27 +98,22 @@ php bin/magento setup:static-content:deploy en_GB en_US -f
 echo "${blue}${bold}STARTING GULP${normal}"
 cd /app/vendor/snowdog/frontools
 source $NVM_DIR/nvm.sh
-nvm use 14
+nvm use 16
 gulp svg
 gulp babel
 gulp styles
 
 cd /app
 
-
-######################
-# PERMISSIONS
-######################
-chgrp -R www-data pub var app/etc generated auth.json
-chmod -R g+rwX pub var app/etc vendor auth.json
-
 # clean up
 php bin/magento indexer:reindex
 php bin/magento c:f
-rm -rf var/*
 
+rm -rf var
 ######################
 # START SERVICES
 ######################
+
+su root
 echo "${blue}${bold}STARTING SUPERVISORD${normal}"
 /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf

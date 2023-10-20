@@ -34,6 +34,7 @@ RUN docker-php-ext-install \
 
 ADD etc/zz-settings.ini /usr/local/etc/php/conf.d/zz-settings.ini
 
+
 ######################
 # SETUP COMPOSER
 ######################
@@ -55,7 +56,7 @@ RUN rm -rf /etc/nginx/sites-enabled/*
 ######################
 RUN mkdir -p /usr/local/nvm
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 14
+ENV NODE_VERSION 16
 RUN curl --silent -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh \
@@ -72,10 +73,13 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 ######################
 WORKDIR /app
 
+RUN chown -R www-data:www-data /app /composer
+USER www-data
+
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
 RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
-RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.5-p6 .
+RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.5-p5 .
 
 ######################
 # APPLY PATCHES
@@ -86,6 +90,7 @@ RUN for file in /patches/*.patch; do patch -p1 < $file; done
 ######################
 # START
 ######################
+USER root
 RUN apt-get install -y --no-install-recommends supervisor netcat-openbsd
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
@@ -97,7 +102,7 @@ RUN rm -rf $COMPOSER_HOME/cache
 RUN rm -rf /var/lib/apt/lists/*
 
 COPY start.sh /start.sh
-RUN chmod +x /start.sh
 CMD ["/bin/bash", "/start.sh"]
+
 
 HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:80/
