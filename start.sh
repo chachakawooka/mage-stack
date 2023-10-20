@@ -111,6 +111,7 @@ chmod -R g+rwX pub var app/etc vendor auth.json
 # clean up
 php bin/magento indexer:reindex
 php bin/magento c:f
+rm -rf var/*
 
 ######################
 # START SERVICES
