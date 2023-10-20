@@ -1,7 +1,7 @@
 ######################
 # PHP STARTING
 ######################
-FROM chachakawooka/mage_stack:2.4.5.6
+FROM chachakawooka/mage_stack:2.4.5.5
 USER www-data
 
 ARG MAGENTO_COMPOSER_USER
