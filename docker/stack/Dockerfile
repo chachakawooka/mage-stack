@@ -61,6 +61,7 @@ RUN chown -R www-data:www-data /app /composer
 RUN mkdir -p /usr/local/nvm
 RUN chown -R www-data:www-data /usr/local/nvm
 
+RUN chsh -s /bin/bash www-data
 USER www-data
 
 ARG MAGENTO_COMPOSER_USER
@@ -100,11 +101,17 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 ######################
 # CLEANUP
 ######################
+RUN chown -R www-data:www-data /var/www
+
 RUN rm $COMPOSER_HOME/auth.json
 RUN rm -rf $COMPOSER_HOME/cache
 RUN rm -rf /var/lib/apt/lists/*
 
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY start.sh /start.sh
+COPY setup.sh /setup.sh
+RUN chmod +x /start.sh
+RUN chmod +x /setup.sh
 CMD ["/bin/bash", "/start.sh"]
 
 

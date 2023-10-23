@@ -20,28 +20,9 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
-
-until nc -z -v -w30 ${MAGE_DB_HOST} 3306
-do
-    echo "${yellow}Waiting for database connection...${normal}"
-    # wait for 5 seconds before check again
-    sleep 5
-done
-
-until nc -z -v -w30 es01 9200
-do
-    echo "${yellow}Waiting for elastic connection...${normal}"
-    # wait for 5 seconds before check again
-    sleep 5
-done
-
 ######################
 # INSTALL MAGENTO
 ######################
-
-# change user to www-data
-su www-data
-
 
 php bin/magento setup:config:set \
 --db-host ${MAGE_DB_HOST} \
@@ -98,7 +79,9 @@ php bin/magento setup:static-content:deploy en_GB en_US -f
 echo "${blue}${bold}STARTING GULP${normal}"
 cd /app/vendor/snowdog/frontools
 source $NVM_DIR/nvm.sh
-nvm use 16
+npm install gulp -g
+npm install --force
+gulp setup
 gulp svg
 gulp babel
 gulp styles
@@ -110,10 +93,3 @@ php bin/magento indexer:reindex
 php bin/magento c:f
 
 rm -rf var
-######################
-# START SERVICES
-######################
-
-su root
-echo "${blue}${bold}STARTING SUPERVISORD${normal}"
-/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf
