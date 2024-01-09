@@ -1,7 +1,7 @@
 version: "3"
 services:
   db:
-    image: mariadb:10.4
+    image: mariadb:10.6
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MAGE_DB_NAME}
@@ -17,12 +17,14 @@ services:
     networks:
       - default
   es01:
-    image: elasticsearch:7.17.9
+    image: elasticsearch:8.11.3
     restart: on-failure:5
     env_file: .env
     environment:
       - node.name=es01
       - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ulimits:
       memlock:
@@ -31,7 +33,7 @@ services:
     networks:
       - default
   app:
-    image: chachakawooka/mage_stack
+    image: chachakawooka/mage_stack:2.4.6.3
     volumes:
       - ./app/code:/app/app/code
       - ./app/design/frontend:/app/app/design/frontend
@@ -49,3 +51,7 @@ services:
       - 32733:80
     networks:
       - default
+  rabbitmq:
+    image: rabbitmq:3.9-management
+    ports:
+      - 15672

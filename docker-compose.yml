@@ -1,7 +1,7 @@
 version: "3"
 services:
   db:
-    image: mariadb:10.4
+    image: mariadb:10.6
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MAGE_DB_NAME}
@@ -43,14 +43,14 @@ services:
     networks:
       - default
   es01:
-    image: smilesuite/es
+    image: elasticsearch:8.11.3
+    restart: on-failure:5
     environment:
       - node.name=es01
       - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
       - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
-    build:
-      context: ./
-      dockerfile: Dockerfile-elastic
     ulimits:
       memlock:
         soft: -1

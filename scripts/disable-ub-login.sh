@@ -1,1 +1,0 @@
-docker-compose -f docker-compose-dev.yml exec app bash -c "sed -i 's#password) {#password) {return true;#' /app/pub/ub-tool/protected/components/UserMenu.php"
