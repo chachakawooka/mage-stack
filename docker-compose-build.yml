@@ -11,7 +11,7 @@ services:
     networks:
       - default
   redis:
-    image: redis:${REDIS_VERSION}
+    image: redis:7.2
     restart: on-failure:5
     env_file: .env
     networks:
@@ -33,7 +33,7 @@ services:
     networks:
       - default
   app:
-    image: chachakawooka/mage_stack:2.4.6.3
+    image: chachakawooka/mage_stack:2.4.7
     volumes:
       - ./app/code:/app/app/code
       - ./app/design/frontend:/app/app/design/frontend
@@ -52,6 +52,6 @@ services:
     networks:
       - default
   rabbitmq:
-    image: rabbitmq:3.9-management
+    image: rabbitmq:3.12-management
     ports:
       - 15672

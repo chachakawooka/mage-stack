@@ -16,7 +16,7 @@ services:
     ports:
       - 3306
   redis:
-    image: redis:${REDIS_VERSION}
+    image: redis:7.2
     restart: on-failure:5
     env_file: .env
     networks:
@@ -56,7 +56,7 @@ services:
         soft: -1
         hard: -1
   rabbitmq:
-    image: rabbitmq:3.9-management
+    image: rabbitmq:3.12-management
     ports:
       - 15672
 volumes:
