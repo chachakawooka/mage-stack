@@ -56,7 +56,7 @@ nvm use 20
 ######################
 # PERMISSIONS
 ######################
-php bin/magento setup:upgrade
+php bin/magento setup:upgrade --keep-generated
 php bin/magento setup:di:compile
 
 php bin/magento indexer:reindex
