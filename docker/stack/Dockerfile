@@ -73,7 +73,7 @@ USER www-data
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
 RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
-RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.6-p3  .
+RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.6-p6  .
 RUN composer require magento/module-elasticsearch-8 --with-all-dependencies
 
 ######################
