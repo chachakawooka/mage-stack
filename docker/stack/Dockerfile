@@ -1,7 +1,7 @@
 ######################
 # PHP STARTING
 ######################
-FROM php:8.2-fpm-bullseye
+FROM php:8.2-fpm-bookworm
 
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
