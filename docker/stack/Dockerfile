@@ -96,7 +96,7 @@ ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 # APPLY PATCHES
 ######################
 COPY /patches/ /patches/
-#RUN for file in /patches/*.patch; do patch -p1 < $file; done
+RUN for file in /patches/*.patch; do patch -p1 < $file; done
 
 ######################
 # START
