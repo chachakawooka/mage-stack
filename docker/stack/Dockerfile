@@ -1,7 +1,7 @@
 ######################
 # PHP STARTING
 ######################
-FROM php:8.2-fpm-bullseye
+FROM php:8.4-fpm-bullseye
 
 RUN apt-get update && apt-get install -y --fix-missing --no-install-recommends \
     apt-utils \
@@ -30,7 +30,8 @@ RUN docker-php-ext-install \
     soap \
     xsl \
     mysqli \
-    sockets
+    sockets \
+    ftp
 
 # Install ImageMagick and Imagick PHP extension
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -73,15 +74,14 @@ USER www-data
 ARG MAGENTO_COMPOSER_USER
 ARG MAGENTO_COMPOSER_PASSWORD
 RUN composer config --global http-basic.repo.magento.com $MAGENTO_COMPOSER_USER $MAGENTO_COMPOSER_PASSWORD
-RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.7  .
-RUN composer require magento/module-elasticsearch-8 --with-all-dependencies
+RUN composer create-project --repository=https://repo.magento.com/ magento/project-community-edition:2.4.8-p2  .
 
 ######################
 # NODE SETUP
 ######################
 ENV NVM_DIR /usr/local/nvm
-ENV NODE_VERSION 20
-RUN curl --silent -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+ENV NODE_VERSION 21
+RUN curl --silent -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
 
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh \
     && nvm install $NODE_VERSION \
