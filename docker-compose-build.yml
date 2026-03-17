@@ -31,7 +31,7 @@ services:
     networks:
       - default
   app:
-    image: chachakawooka/mage_stack
+    image: chachakawooka/mage_stack:2.4.5.16
     volumes:
       - ./app/code:/app/app/code
       - ./app/design/frontend:/app/app/design/frontend
