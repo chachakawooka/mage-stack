@@ -37,8 +37,9 @@ nvm use 20
     --admin-user $MAGENTO_USER \
     --admin-password $MAGENTO_PASSWORD \
     --backend-frontname $MAGE_ADMIN_URL \
-    --elasticsearch-host=es01 \
-    --search-engine=elasticsearch8
+    --opensearch-host=es01 \
+    --opensearch-port=9200 \
+    --search-engine=opensearch
 
     echo "${blue}${bold}SET REDIS ${normal}"
 

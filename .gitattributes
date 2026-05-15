@@ -1,0 +1,10 @@
+# Force LF line endings for files that are read by Linux inside Docker
+# containers, regardless of the host platform's git autocrlf setting.
+*.sh text eol=lf
+docker/stack/start.sh text eol=lf
+docker/stack/setup.sh text eol=lf
+docker/stack/custom.sh text eol=lf
+custom.sh text eol=lf
+supervisord.conf text eol=lf
+docker/stack/supervisord.conf text eol=lf
+docker/stack/nginx-conf.d/* text eol=lf

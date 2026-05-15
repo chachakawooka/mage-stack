@@ -1,7 +1,7 @@
 version: "3"
 services:
   db:
-    image: mariadb:10.6
+    image: mariadb:11.8
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MAGE_DB_NAME}
@@ -43,20 +43,22 @@ services:
     networks:
       - default
   es01:
-    image: elasticsearch:8.11.3
+    image: opensearchproject/opensearch:3
     restart: on-failure:5
     environment:
+      - cluster.name=docker-cluster
       - node.name=es01
       - discovery.type=single-node
-      - xpack.security.enabled=false
-      - xpack.security.enrollment.enabled=false
-      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+      - plugins.security.disabled=true
+      - DISABLE_INSTALL_DEMO_CONFIG=true
+      - bootstrap.memory_lock=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms1024m -Xmx1024m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
   rabbitmq:
-    image: rabbitmq:4.1-management
+    image: rabbitmq:4.2-management
     ports:
       - 15672
 volumes:
